@@ -2,6 +2,8 @@
 
 ## Handle Errors
 
+OpenImageIO doesn't handle errors the most pythonic way. This mean you often have to catch them by yourself.
+
 ```python
 import OpenImageIO as oiio
 
