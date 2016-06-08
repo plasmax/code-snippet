@@ -135,8 +135,8 @@ import guerilla
 doc = guerilla.Document()
 
 with guerilla.Modifier() as mod:
-    doc.ProjectWidth.set(doc.ProjectWidth.get())
-    doc.ProjectHeight.set(doc.ProjectHeight.get())
+    doc.ProjectWidth.set(doc.ProjectWidth.get()/2)
+    doc.ProjectHeight.set(doc.ProjectHeight.get()/2)
 ```
 
 ## Enable/Disable "Use Project Settings" for a given RenderPass
