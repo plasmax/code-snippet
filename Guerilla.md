@@ -61,7 +61,7 @@ More infos [here](http://guerillarender.com/doc/1.4/PythonSDK/api/Modifier.html#
 
 You can get node type from Guerilla's _Node List_ tab. Node type is displayed on the right on the node name.
 
-// image
+![Guerilla node list](./img/guerilla/guerilla_node_list.png)
 
 ## Node from its name
 
