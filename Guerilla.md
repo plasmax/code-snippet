@@ -322,10 +322,10 @@ def nodes_in_frame(frame):
     s_x, s_y = frame.Size.get()
 
     # we compute the box borders
-    x_min = p_x-s_x/2.0
-    x_max = p_x+s_x/2.0
-    y_min = p_y-s_y/2.0
-    y_max = p_y+s_y/2.0
+    x_min = p_x
+    x_max = p_x+s_x
+    y_min = p_y
+    y_max = p_y+s_y
 
     # now we iterate over every node near the GraphFrame. Note we only get
     # nodes inheriting from 'RenderGraphNode' type because of the 'NodePos'
@@ -359,10 +359,10 @@ def is_node_in_frame(node, frame):
     s_x, s_y = frame.Size.get()
 
     # we compute the box borders
-    x_min = p_x-s_x/2.0
-    x_max = p_x+s_x/2.0
-    y_min = p_y-s_y/2.0
-    y_max = p_y+s_y/2.0
+    x_min = p_x
+    x_max = p_x+s_x
+    y_min = p_y
+    y_max = p_y+s_y
 
     n_x, n_y = node.NodePos.get()
 
