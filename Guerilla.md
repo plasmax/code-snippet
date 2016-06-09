@@ -212,11 +212,16 @@ def input_connected_nodes(node):
         input_connected_nodes(connected_node)
 ```
 
-Select one node connected to input nodes and:
+Select one node connected to some input nodes:
+
+![Guerilla iterate input nodes](./img/guerilla/guerilla_iter_input_nodes.png)
+
+And:
 
 ```python
 node = guerilla.Document().selection()[0]
 print [n.name for n in input_connected_nodes(node)]
+# ['Trace', 'Surface', 'All']
 ```
 
 You can modify this function to deal with outputs replacing `getinputs()` method by `getoutputs()`.
@@ -241,16 +246,11 @@ def left_nodes(node):
             yield n
 ```
 
-Select a node inside `RenderGraph`:
-
-![Guerilla iterate input nodes](./img/guerilla/guerilla_iter_input_nodes.png)
-
-And:
+Select a node inside `RenderGraph` and:
 
 ```python
 node = guerilla.Document().selection()[0]
 print [n.name for n in left_nodes(node)]
-# ['Trace', 'Surface', 'All']
 ```
 
 This will print name of every nodes positioned on the left of the selected one.
