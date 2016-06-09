@@ -94,6 +94,17 @@ for node in doc.selection():
         print "  ", plug.name
 ```
 
+## Put a node inside another node
+
+This move node `a ` inside node `b`:
+
+```python
+with guerilla.Modifier() as mod:
+    a.move(b)
+```
+
+Be sure  `a` is disconnected from other nodes before move it.
+
 ## Iterate over RenderPass/Layer/AOV
 
 ```python
