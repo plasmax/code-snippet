@@ -223,7 +223,7 @@ You can modify this function to deal with outputs replacing `getinputs()` method
 
 ## Iterate over every nodes on the left side of a given node
 
-```
+```python
 import guerilla
 
 def left_nodes(node):
@@ -241,11 +241,16 @@ def left_nodes(node):
             yield n
 ```
 
-Select a node inside `RenderGraph` and:
+Select a node inside `RenderGraph`:
+
+![Guerilla iterate input nodes](./img/guerilla/guerilla_iter_input_nodes.png)
+
+And:
 
 ```python
 node = guerilla.Document().selection()[0]
 print [n.name for n in left_nodes(node)]
+# ['Trace', 'Surface', 'All']
 ```
 
 This will print name of every nodes positioned on the left of the selected one.
