@@ -389,3 +389,21 @@ node = guerilla.pynode("RenderGraph|Layer")
 print node_in_frame(node, frame)
 # True
 ```
+
+## Create a macro inside a RenderGraph
+
+A simple snippet to create a macro in script the same way Guerilla creates it when you do manually.
+
+```python
+import guerilla
+
+rg = guerilla.pynode("RenderGraph")
+
+with guerilla.Modifier() as mod:
+    macro = mod.createnode("NewMacro", type="RenderGraphMacro", parent=rg)
+    out = mod.createnode("Output", type="RenderGraphMacroOutput", parent=macro)
+    in_ = mod.createnode("Input1", type="RenderGraphInput", parent=out)
+    out2 = mod.createnode("Output1", type="RenderGraphOutput", parent=macro)
+    out2.Plug.adddependency(in_.Plug)
+    in_.PlugName.connect(out2.PlugName)
+```
