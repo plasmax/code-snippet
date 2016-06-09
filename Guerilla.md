@@ -285,6 +285,8 @@ def put_between(a, b, c):
 
 Select three nodes in the order you want to connect them:
 
+![Guerilla put between 001](./img/guerilla/guerilla_put_between_001.png)
+
 ```python
 a,b,c = guerilla.Document().selection()[0:3]
 
@@ -292,6 +294,10 @@ a,b,c = guerilla.Document().selection()[0:3]
 with guerilla.Modifier() as mod:
     put_between(a, b, c)
 ```
+
+![Guerilla put between 002](./img/guerilla/guerilla_put_between_002.png)
+
+Try to improve the code to move the node between `a` and `b`. ;)
 
 ## Create a frame (like Nuke backdrop)
 
