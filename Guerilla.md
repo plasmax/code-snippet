@@ -163,3 +163,218 @@ with guerilla.Modifier() as mod:
     rp.Height.connect(doc.ProjectHeight)
     rp.AspectRatio.connect(doc.ProjectAspectRatio)
 ```
+
+## Check if two nodes are connected in any order
+
+```python
+def are_connected(a, b):
+    # test if nodes are connected in one side...
+    for out in a.getoutputs():
+        for in_ in b.getinputs():
+            if in_.Plug.isconnected(out.Plug):
+                return True
+
+    # ...and the other side
+    for out in b.getoutputs():
+        for in_ in a.getinputs():
+            if in_.Plug.isconnected(out.Plug):
+                return True
+
+    # we can't find any connection
+    return False
+```
+
+Select two connected nodes and:
+
+```python
+# get the two first selected nodes
+a, b = guerilla.Document().selection()[0:2]
+print are_connected(a, b) # should print True
+```
+
+## Iterate over all input nodes of a given one
+
+```python
+def input_connected_nodes(node):
+
+    for in_ in node.getinputs():
+
+        connected_plug = in_.getconnected()
+
+        if not connected_plug:
+            continue
+
+        connected_node = connected_plug.parent
+
+        yield connected_node
+
+        # do this recursively
+        input_connected_nodes(connected_node)
+```
+
+Select one node connected to input nodes and:
+
+```python
+node = guerilla.Document().selection()[0]
+print [n.name for n in input_connected_nodes(node)]
+```
+
+You can modify this function to deal with outputs replacing `getinputs()` method by `getoutputs()`.
+
+## Iterate over every nodes on the left side of a given node
+
+```
+import guerilla
+
+def left_nodes(node):
+    # get node position and consider it as source
+    src_x, src_y = node.NodePos.get()
+
+    # iterate over every node of the group
+    for n in node.parent.children():
+
+        # get node position
+        x, _ = n.NodePos.get()
+
+        # compare if the current node is on the left of the original
+        if x < src_x:
+            yield n
+```
+
+Select a node inside `RenderGraph` and:
+
+```python
+node = guerilla.Document().selection()[0]
+print [n.name for n in left_nodes(node)]
+```
+
+This will print name of every nodes positioned on the left of the selected one.
+
+## Put a given node between two nodes
+
+This function put node `b` between `a` and `c` so you get `a` connected to `b` connected to `c`.
+
+Its assume:
+* `a` have one single output
+* `b` have one single input and one single output
+* `c` have one single input
+
+```python
+import guerilla
+
+def put_between(a, b, c):
+
+    # we assume the nodes have one single input and output
+    a_out = a.getoutputs()[0].Plug
+    b_in  = b.getinputs()[0].Plug
+    b_out = b.getoutputs()[0].Plug
+    c_in  = c.getinputs()[0].Plug
+
+    # disconnect a and c if connected
+    if c_in.isconnected(a_out):
+        c_in.disconnect(a_out)
+
+    b_in.connect(a_out)
+    c_in.connect(b_out)
+```
+
+Select three nodes in the order you want to connect them:
+
+```python
+a,b,c = guerilla.Document().selection()[0:3]
+
+# you need a modification context as you will modify the graph
+with guerilla.Modifier() as mod:
+    put_between(a, b, c)
+```
+
+## Create a frame (like Nuke backdrop)
+
+This create a `GraphFrame` node which is like Nuke's backdrops.
+
+```python
+import guerilla
+
+# get RenderGraph node
+rg = guerilla.pynode("RenderGraph")
+
+# you need a modification context as you modify the gproject
+with guerilla.Modifier() as mod:
+    frame = mod.createnode("NewFrame", type="GraphFrame", parent=rg)
+
+    # you can customize the frame
+    frame.Notes.set("TOTO!")
+    frame.Position.set((-200, -50))
+    frame.Size.set((200, 150))
+    frame.Color.set((1.0, 0.5, 0.6))
+    frame.Opacity.set(0.2)
+```
+
+![Guerilla create frame](./img/guerilla/guerilla_create_frame.png)
+
+## Iterate over every nodes inside a given `GraphFrame` node
+
+```python
+def nodes_in_frame(frame):
+
+    # we retrive position and size
+    p_x, p_y = frame.Position.get()
+    s_x, s_y = frame.Size.get()
+
+    # we compute the box borders
+    x_min = p_x-s_x/2.0
+    x_max = p_x+s_x/2.0
+    y_min = p_y-s_y/2.0
+    y_max = p_y+s_y/2.0
+
+    # now we iterate over every node near the GraphFrame. Note we only get
+    # nodes inheriting from 'RenderGraphNode' type because of the 'NodePos'
+    # attribute.
+    for node in frame.parent.children(type='RenderGraphNode'):
+
+        n_x, n_y = node.NodePos.get()
+
+        # test if node position is inside the box
+        if all((x_min < n_x < x_max,
+                y_min < n_y < y_max)):
+            yield node
+```
+
+If we use the `frame` variable created in the previous example:
+
+```python
+print [n.name for n in nodes_in_frame(frame)]
+# ['Lighting', 'Layer']
+```
+
+## Know if a node is inside a frame
+
+This is a variation of the previous one, returning True if the given node is inside the given frame.
+
+```python
+def is_node_in_frame(node, frame):
+
+    # we retrieve position and size
+    p_x, p_y = frame.Position.get()
+    s_x, s_y = frame.Size.get()
+
+    # we compute the box borders
+    x_min = p_x-s_x/2.0
+    x_max = p_x+s_x/2.0
+    y_min = p_y-s_y/2.0
+    y_max = p_y+s_y/2.0
+
+    n_x, n_y = node.NodePos.get()
+
+     # test if node position is inside the box
+     return all((x_min < n_x < x_max,
+                 y_min < n_y < y_max)):
+```
+
+With the previously created `GraphFrame`:
+
+```python
+node = guerilla.pynode("RenderGraph|Layer")
+print node_in_frame(node, frame)
+# True
+```
