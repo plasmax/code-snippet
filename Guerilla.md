@@ -368,7 +368,7 @@ def is_node_in_frame(node, frame):
 
      # test if node position is inside the box
      return all((x_min < n_x < x_max,
-                 y_min < n_y < y_max)):
+                 y_min < n_y < y_max))
 ```
 
 With the previously created `GraphFrame`:
