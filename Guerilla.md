@@ -344,7 +344,7 @@ If we use the `frame` variable created in the previous example:
 
 ```python
 print [n.name for n in nodes_in_frame(frame)]
-# ['Lighting', 'Layer']
+# ['Layer', 'Output']
 ```
 
 ## Know if a node is inside a frame
