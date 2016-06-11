@@ -61,7 +61,7 @@ More infos [here](http://guerillarender.com/doc/1.4/PythonSDK/api/Modifier.html#
 
 You can get node type from Guerilla's _Node List_ tab. Node type is displayed on the right on the node name.
 
-![Guerilla node list](./img/guerilla/guerilla_node_list.png)
+![Guerilla node list](img/guerilla/guerilla_node_list.png)
 
 ## Node from its name
 
@@ -225,7 +225,7 @@ def input_connected_nodes(node):
 
 Select one node connected to some input nodes:
 
-![Guerilla iterate input nodes](./img/guerilla/guerilla_iter_input_nodes.png)
+![Guerilla iterate input nodes](img/guerilla/guerilla_iter_input_nodes.png)
 
 And:
 
@@ -296,7 +296,7 @@ def put_between(a, b, c):
 
 Select three nodes in the order you want to connect them:
 
-![Guerilla put between 001](./img/guerilla/guerilla_put_between_001.png)
+![Guerilla put between 001](img/guerilla/guerilla_put_between_001.png)
 
 ```python
 a,b,c = guerilla.Document().selection()[0:3]
@@ -306,7 +306,7 @@ with guerilla.Modifier() as mod:
     put_between(a, b, c)
 ```
 
-![Guerilla put between 002](./img/guerilla/guerilla_put_between_002.png)
+![Guerilla put between 002](img/guerilla/guerilla_put_between_002.png)
 
 Try to improve the code to move the node between `a` and `b`. ;)
 
@@ -332,7 +332,7 @@ with guerilla.Modifier() as mod:
     frame.Opacity.set(0.2)
 ```
 
-![Guerilla create frame](./img/guerilla/guerilla_create_frame.png)
+![Guerilla create frame](img/guerilla/guerilla_create_frame.png)
 
 ## Iterate over every nodes inside a given `GraphFrame` node
 
