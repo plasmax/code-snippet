@@ -497,7 +497,7 @@ def connected_node(node, name, inputs=True, outputs=True):
                      return con_in.parent
 ```
 
-Here we retrive the node connected to the _set_ input attribute:
+Here we retrive the node connected to the _set_ input attribute of the trace node:
 
 ![Guerilla default RenderGraph](img/guerilla/guerilla_default_rendergraph.png)
 
