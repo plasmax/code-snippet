@@ -418,3 +418,96 @@ with guerilla.Modifier() as mod:
     out2.Plug.adddependency(in_.Plug)
     in_.PlugName.connect(out2.PlugName)
 ```
+
+## Check if a node has an input/output attribute with given name
+
+The `hasPlug()` method rely on the low level Guerilla `Plug` system. It's often hard for user to understand them as it's not related to what they see in the UI. This two function
+
+```python
+def has_plug_name(node, name, inputs=True, outputs=True):
+    '''Return if the given node has plug with PlugName attribute with the given
+    name.
+
+    :param (guerilla.Node) node:
+    Guerilla node to check for inputs/outputs names
+
+    :param (str) name:
+    The plug name to look for
+
+    :param (bool) inputs:
+    If True, will check for input plug names
+
+    :param (bool) outputs:
+    If True, will check for output plug names
+    '''
+    if inputs:
+        for i in node.getinputs():
+
+            if i.PlugName.get() == name:
+                return True
+
+    if outputs:
+        for o in node.getoutputs():
+
+            if o.PlugName.get() == name:
+                return True
+
+    return False
+```
+
+Now we check the default _Trace_ node have a _set_ input attribute:
+
+![Guerilla default RenderGraph](img/guerilla/guerilla_default_rendergraph.png)
+
+```python
+import guerilla
+
+rg = guerilla.pynode("RenderGraph")
+print has_plug_name(rg.Trace, name="set", inputs=True, outputs=False)
+# True
+```
+
+You can try this for multiple other nodes.
+
+## Get the node connected to the given attribute of a given node
+
+This function return the node connected to the given input/output name. It's important to understant that if there is multiple input/output node with the given name, only the first one is given (it doesn't appear often but you have to know it).
+
+```python
+def connected_node(node, name, inputs=True, outputs=True):
+
+    if inputs:
+        for i in node.getinputs():
+
+            if i.PlugName.get() == name:
+
+                 con_out = i.getconnected()
+
+                 if con_out:
+
+                     return con_out.parent
+
+    if outputs:
+        for o in node.getoutputs():
+
+            if o.PlugName.get() == name:
+
+                 for con_in in o.getconnected():
+
+                     return con_in.parent
+```
+
+Here we retrive the node connected to the _set_ input attribute:
+
+![Guerilla default RenderGraph](img/guerilla/guerilla_default_rendergraph.png)
+
+```python
+import guerilla
+
+rg = guerilla.pynode("RenderGraph")
+node = connected_node(rg.Trace, name="set", inputs=True, outputs=False)
+print node.name
+# "Surface"
+```
+
+As said before, in the case of output, this function only return the first encounter output. You can modify this function to return a list instead of the first one.
