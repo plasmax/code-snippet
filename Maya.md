@@ -2,8 +2,6 @@
 
 ## Iterate over top nodes of the current scene
 
-This 
-
 ```python
 import maya.cmds as mc
 
@@ -25,7 +23,7 @@ def top_nodes() :
 
 From an empty scene, create a group (ctrl+g):
 
-![Maya empty group](img/maya/maya_empty_grp.png)
+![Maya empty group](img/maya/maya_null_grp.png)
 
 ```python
 print list(top_nodes())
