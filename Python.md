@@ -1,5 +1,23 @@
 # Python Code Snippet
 
+## Formating
+
+### Use variable name to format strings
+
+```python
+prefix = "HAHA"
+attr = "HOHO"
+print "{prefix}{attr}".format(**locals())
+```
+
+In python 3+ you can do this simply with:
+
+```python
+prefix = "HAHA"
+attr = "HOHO"
+print f"{prefix}{attr}"
+```
+
 ## Iterator
 
 Here is a list of useful [iterators](http://pymbook.readthedocs.io/en/latest/igd.html) not present in the [itertools](https://docs.python.org/2/library/itertools.html) module.
