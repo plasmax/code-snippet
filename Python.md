@@ -38,6 +38,24 @@ def chunck(l, n):
 [[0, 1, 2], [3, 4, 5], [6, 7, 8], [9, 10, 11], [12, 13, 14], [15]]
 ```
 
+#### Pair sliding
+
+Usefull to organize a list of connected nodes inside a graph.
+
+Pattern is:`ABCDEF` -> `AB, BC, CD, DE, EF`
+
+```python
+import itertools
+
+def pair_slide(l):
+    return itertools.izip(l, l[1:])
+```
+
+```python
+>>> list(pair_slide("ABCDEF"))
+[('A', 'B'), ('B', 'C'), ('C', 'D'), ('D', 'E'), ('E', 'F')]
+```
+
 ## Other
 
 ### Generate and execute dynamic Bash commands in Python
