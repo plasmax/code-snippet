@@ -22,7 +22,7 @@ print f"{prefix}{attr}"
 
 Here is a list of useful [iterators](http://pymbook.readthedocs.io/en/latest/igd.html) not present in the [itertools](https://docs.python.org/2/library/itertools.html) module.
 
-#### Iterate over packets of N elements in the given list
+### Iterate over packets of N elements in the given list
 
 This is useful for frame range generation when creating renderfarm jobs (eg: RIB genration).
 
@@ -38,7 +38,7 @@ def chunck(l, n):
 [[0, 1, 2], [3, 4, 5], [6, 7, 8], [9, 10, 11], [12, 13, 14], [15]]
 ```
 
-#### Pair sliding
+### Pair sliding
 
 Usefull to organize a list of connected nodes inside a graph.
 
