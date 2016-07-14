@@ -26,6 +26,8 @@ Here is a list of useful [iterators](http://pymbook.readthedocs.io/en/latest/igd
 
 This is useful for frame range generation when creating renderfarm jobs (eg: RIB genration).
 
+Pattern is:`ABCDEF` -> `AB, CD, EF`
+
 ```python
 def chunck(l, n):
     return (l[i:i+n] for i in xrange(0, len(l), n))
