@@ -5,8 +5,8 @@
 ```python
 import maya.cmds as mc
 
-# to avoid to get default camera, we create a set
-defaultNodes = set(("front", "persp", "side", "top"))
+# to avoid to get default cameras, we create a set with default nodes
+defaultNodes = set(mc.ls(defaultNodes=True))
 
 def top_nodes() :
 
