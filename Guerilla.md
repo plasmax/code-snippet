@@ -8,7 +8,9 @@ There is some examples in the _Examples_ section of the [official Python API doc
 
 Guerilla console is very useful, use it!
 
-Show it using _"View"/"Show/Hide console"_.
+Show it using _"View"/"Show/Hide console"_:
+
+![Guerilla show/hide consolet](img/guerilla/guerilla_show_hide_console.png)
 
 Once in the console, you can create a Python tab using _File/New/Python_ or faster using _Ctrl+Shift+N_ shortcut. You can also save your Python file and so, keep it for the next Guerilla session.
 
@@ -122,6 +124,14 @@ for render_pass in root.children(type='RenderPass'):
             print aov.name, aov.PlugName.get()
 ```
 
+On a fresh empty scene you will get:
+
+```
+RenderPass
+Layer
+Input1 Beauty
+```
+
 ## Get/Set attribute
 
 In Guerilla, node attributes are of type `guerilla.Plug` and you get/set values using `get()` and `set()` method.
@@ -151,6 +161,8 @@ with guerilla.Modifier() as mod:
 ```
 
 ## Enable/Disable "Use Project Settings" for a given RenderPass
+
+![Guerilla project size](img/guerilla/guerilla_project_size.png)
 
 When you click on the _Use Project Settings_ checkbox in a RenderPass, Guerilla does some script under the hood.
 
