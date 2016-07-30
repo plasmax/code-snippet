@@ -65,7 +65,7 @@ You can get node type from Guerilla's _Node List_ tab. Node type is displayed on
 
 ![Guerilla node list](img/guerilla/guerilla_node_list.png)
 
-Here you can see *Beauty* is actually a *LayoutOut* node type.
+Here you can see *Beauty* is actually a `LayoutOut` node type.
 
 ## Node from its name
 
