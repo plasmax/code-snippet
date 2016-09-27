@@ -52,14 +52,14 @@ def non_ascii_named_nodes():
 
 Create a null node and rename it "pâté" then run the command:
 
-```
+```python
 print list(non_ascii_named_nodes())
 # [u'p\xe2t\xe9']
 ```
 
 Maya can print correct values like this:
 
-```
+```python
 for node in non_ascii_named_nodes():
     print node
 # pâté
