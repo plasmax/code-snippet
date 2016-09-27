@@ -30,7 +30,7 @@ print list(top_nodes())
 # [u'null1']
 ```
 
-## Iterate over nodes havin non-ascii characters in their names
+## Iterate over nodes having non-ascii characters in their names
 
 This snippet run though every node in the current scene and detect if there is non ascii characters in node names.
 
