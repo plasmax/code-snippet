@@ -49,3 +49,18 @@ def non_ascii_named_nodes():
 			# ...and return the node if its fail
 			yield node
 ```
+
+Create a null node and rename it "pâté" then run the command:
+
+```
+print list(non_ascii_named_nodes())
+# [u'p\xe2t\xe9']
+```
+
+Maya can print correct values like this:
+
+```
+for node in non_ascii_named_nodes():
+    print node
+# pâté
+```
