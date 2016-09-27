@@ -29,3 +29,23 @@ From an empty scene, create a group (ctrl+g):
 print list(top_nodes())
 # [u'null1']
 ```
+
+## Iterate over nodes havin non-ascii characters in their names
+
+This snippet run though every node in the current scene and detect if there is non ascii characters in node names.
+
+```python
+import maya.cmds as mc
+
+def non_ascii_named_nodes():
+
+	# iterate over every node of the current scene
+	for node in mc.ls('*'):
+
+		# try to read node name in ascii...
+		try:
+			node.decode('ascii')
+		except UnicodeEncodeError:
+			# ...and return the node if its fail
+			yield node
+```
