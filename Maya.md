@@ -8,7 +8,7 @@ import maya.cmds as mc
 # to avoid to get default cameras, we create a set with default nodes
 defaultNodes = set(mc.ls(defaultNodes=True))
 
-def top_nodes() :
+def top_nodes():
 
     # iter over every transform node of the scene
     for node in mc.ls(type="transform"):
