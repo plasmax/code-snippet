@@ -10,12 +10,11 @@ defaultNodes = set(mc.ls(defaultNodes=True))
 
 def top_nodes():
 
-    # iter over every transform node of the scene
-    for node in mc.ls(type="transform"):
+    # iter over every top transform nodes
+    for node in mc.ls(assemblies = True):
         
         # skip default nodes and nodes having parent
-        if any((node in defaultNodes,
-                mc.listRelatives(node, parent=True))):
+        if node in defaultNodes:
             continue
 
         yield node
