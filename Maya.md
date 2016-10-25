@@ -63,3 +63,22 @@ for node in non_ascii_named_nodes():
     print node
 # pâté
 ```
+
+## Iterate over Maya ui as PySide objects
+
+```python
+import maya.OpenMayaUI as omui
+from PySide import QtCore, QtGui
+import shiboken
+ 
+mayaMainWindow = shiboken.wrapInstance(long(omui.MQtUtil.mainWindow()), QtGui.QWidget)
+ 
+def print_children(widget, depth = 0):
+    for child in widget.children():
+        print '    '*depth, type(child), child.objectName()
+        print_children(child, depth + 1)
+ 
+print_children(mayaMainWindow)
+```
+
+More infos about MQtUtil [here](http://help.autodesk.com/view/MAYAUL/2017/ENU/?guid=__cpp_ref_class_m_qt_util_html)
