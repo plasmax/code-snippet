@@ -82,3 +82,17 @@ print_children(mayaMainWindow)
 ```
 
 More infos about MQtUtil [here](http://help.autodesk.com/view/MAYAUL/2017/ENU/?guid=__cpp_ref_class_m_qt_util_html)
+
+## Add a new menu
+
+```python
+import maya.mel as mel
+
+# get main window menu
+mainMayaWindow = mel.eval('$nothing = $gMainWindow')
+
+# top menu
+menu = mc.menu('Coucou!', parent = mainMayaWindow)
+
+mc.menuItem(label = "Another Manager", command = "print 'another manager'", parent = menu)
+```
