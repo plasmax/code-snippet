@@ -60,3 +60,33 @@ def clear_selection():
     for models in models:
         models.Selected = False
 ```
+
+## Switch/Get time in frame or timecode
+
+MotionBuilder return time string depending on the display time mode so this mode need to be switched before getting time string.
+
+```python
+import pyfbsdk as mb
+
+# get player control
+player = mb.FBPlayerControl()
+
+# TransportTimeFormat is a read write property
+# here we set in timecode
+player.TransportTimeFormat = mb.FBTransportTimeFormat.kFBTimeFormatTimecode
+
+# get the FBTime object of the start frame
+mb_time = mb.FBSystem().CurrentTake.LocalTimeSpan.GetStart()
+
+# will return formatted time code: 00:00:04:05
+print mb_time.GetTimeString()
+
+# now we change to frame
+player.TransportTimeFormat = mb.FBTransportTimeFormat.kFBTimeFormatFrame
+
+# get the FBTime object again
+mb_time = mb.FBSystem().CurrentTake.LocalTimeSpan.GetStart()
+
+# will return formatted frame: 101
+print mb_time.GetTimeString()
+```
