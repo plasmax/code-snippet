@@ -20,6 +20,23 @@ import pyfbsdk as mb
 mb.FBApplication().FBXFileName
 ```
 
+## Walk through top models of the current scene
+
+Source [here](http://awforsythe.com/tutorials/pyfbsdk-4).
+
+```python
+import pyfbsdk as mb
+
+def top_models():
+    """Iterate over models on top of the hierarchy
+
+    :return: iterator of models of the top of the hierarchy
+    :rtype: `generator` of `pyfbsdk.FBModel`
+    """
+    for model in mb.FBSystem().Scene.RootModel.Children:
+        yield model
+``
+
 ## Walk recursively through hierarchy
 
 ```python
@@ -30,7 +47,7 @@ def walk(model):
             yield sub_child
 ```
 
-# Walk through parents
+## Walk through parents
 
 ```python
 def walk_top(model):
