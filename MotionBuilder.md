@@ -10,6 +10,9 @@ models = mb.FBModelList()
 
 # fill list with every selected model in scene
 mb.FBGetSelectedModels(models)
+
+# print the name of the first selected model
+print models[0].LongName
 ```
 
 ## Get current file path
