@@ -134,3 +134,37 @@ for prop in models[0].PropertyList:
         print "VALUE", type(prop.Data), prop.Data
     except NotImplementedError:
         continue
+```
+
+## Get Story tracks and clips
+
+```
+import pyfbsdk as mb
+
+# retrieve the root of the story object
+story = mb.FBStory()
+root_story = story.RootFolder
+
+# we need this to find character 
+scene = mb.FBSystem().Scene
+
+# browse animation tracks
+for track in root_story.Tracks:
+
+    print type(track), track.LongName
+    print "Mute", track.Mute
+    print "Type", track.Type  # can't be mb.FBStoryTrackType.kFBStoryTrackCharacter for example
+
+    # iterate over clips
+    for clip in track.Clips:
+    
+        print type(clip), clip.LongName
+        
+        frame_start = clip.Start.GetFrame(mb.FBTimeMode.kFBTimeMode24Frames)
+        frame_stop = clip.Stop.GetFrame(mb.FBTimeMode.kFBTimeMode24Frames)
+        
+        mark_in = clip.MarkIn.GetMilliSeconds()
+        mark_out = clip.MarkOut.GetMilliSeconds()
+        
+        print frame_start, frame_stop, mark_in, mark_out
+```
