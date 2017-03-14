@@ -110,3 +110,27 @@ mb_time = mb.FBSystem().CurrentTake.LocalTimeSpan.GetStart()
 # will return formatted frame: 101
 print mb_time.GetTimeString()
 ```
+
+## Get list of property on a particular model
+
+```python
+
+import pyfbsdk as mb
+
+# create empty model list
+models = mb.FBModelList()
+
+# fill list with every selected model in scene
+mb.FBGetSelectedModels(models)
+
+# iterate over property of the model
+for prop in models[0].PropertyList:
+        
+    print type(prop), prop.Name
+
+    # python can't access datas for some types (FBPropertyAction, FBPropertyListObject, etc.)
+    # that's why we use try/except
+    try:
+        print "VALUE", type(prop.Data), prop.Data
+    except NotImplementedError:
+        continue
