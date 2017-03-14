@@ -95,4 +95,10 @@ mainMayaWindow = mel.eval('$nothing = $gMainWindow')
 menu = mc.menu('Coucou!', parent = mainMayaWindow)
 
 mc.menuItem(label = "Another Manager", command = "print 'another manager'", parent = menu)
+
+# optionnal: add another entry in the menu with a function instead of a string
+def do_something(arg):
+    print "Do something"
+
+mc.menuItem(label = "Another Menu", command = do_something, parent = menu)
 ```
