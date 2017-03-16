@@ -138,7 +138,7 @@ for prop in models[0].PropertyList:
 
 ## Get Story tracks and clips
 
-```
+```python
 import pyfbsdk as mb
 
 # retrieve the root of the story object
