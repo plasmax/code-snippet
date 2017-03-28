@@ -1,5 +1,16 @@
 # Maya Code Snippet
 
+## Retrieve position of every vertices of mesh node
+
+Very fast way to retrieve position of every vertices of mesh node.
+
+```python
+import maya.cmds as mc
+
+raw_pos = mc.xform('pCube1.vtx[*]', query = True, worldSpace = True, translation = True)
+vtx_pos = zip(raw_pos[0::3], raw_pos[1::3], raw_pos[2::3])
+```
+
 ## Iterate over top nodes of the current scene
 
 ```python
