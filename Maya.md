@@ -11,6 +11,34 @@ raw_pos = mc.xform('pCube1.vtx[*]', query = True, worldSpace = True, translation
 vtx_pos = zip(raw_pos[0::3], raw_pos[1::3], raw_pos[2::3])
 ```
 
+## Retrive index of the closest vertex of the given position
+
+```python
+def sqrt_dst(p1,p2):
+    """return square distance between `p1` and `p2`
+    
+    This assume `p1` and `p2` are tuple of three component each.
+    """
+    return (p1[0]-p2[0])**2+(p1[1]-p2[1])**2+(p1[2]-p2[2])**2
+
+def closest(org_pos, node):
+    """Return vertex indice of given node wich is the closest of given world space `org_pos`"""
+    # get every world space position of given node vertices
+    raw_pos = cmds.xform(node+'.vtx[*]', query = True, worldSpace = True, translation = True)
+    
+    # convert raw list to list of three-component-tuple
+    pt_pos = zip(raw_pos[0::3], raw_pos[1::3], raw_pos[2::3])
+    
+    pt_sqrt_dst = [sqrt_dst(org_pos, pt) for pt in pt_pos]
+    
+    return pt_sqrt_dst.index(min(pt_sqrt_dst))
+
+# get world position of the locator
+loc_pos = cmds.xform('locator1', query = True, worldSpace = True, translation = True)
+
+print closest(org_pos = loc_pos, node = 'pCube1')
+```
+
 ## Iterate over top nodes of the current scene
 
 ```python
