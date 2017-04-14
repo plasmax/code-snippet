@@ -77,15 +77,15 @@ import maya.cmds as mc
 
 def non_ascii_named_nodes():
 
-	# iterate over every node of the current scene
-	for node in mc.ls('*'):
+    # iterate over every node of the current scene
+    for node in mc.ls('*'):
 
-		# try to read node name in ascii...
-		try:
-			node.decode('ascii')
-		except UnicodeEncodeError:
-			# ...and return the node if its fail
-			yield node
+        # try to read node name in ascii...
+        try:
+            node.decode('ascii')
+        except UnicodeEncodeError:
+            # ...and return the node if its fail
+            yield node
 ```
 
 Create a null node and rename it "pâté" then run the command:
