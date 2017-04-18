@@ -124,7 +124,9 @@ More infos about MQtUtil [here](http://help.autodesk.com/view/MAYAUL/2017/ENU/?g
 
 ## Add a new menu
 
+
 ![Maya add_menu](img/maya/maya_add_menu.png)
+
 
 ```python
 import maya.mel as mel
