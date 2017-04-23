@@ -10,12 +10,12 @@ attr = "HOHO"
 print "{prefix}{attr}".format(**locals())
 ```
 
-In python 3+ you can do this simply with:
+In python 3.6+ you can do this simply with:
 
 ```python
 prefix = "HAHA"
 attr = "HOHO"
-print f"{prefix}{attr}"
+print(f"{prefix}{attr}")
 ```
 
 ## Iterator
