@@ -145,3 +145,14 @@ def do_something(arg):
 
 mc.menuItem(label = "Another Menu", command = do_something, parent = menu)
 ```
+
+## Convert MFloatMatrix to MMatrix
+
+Using Maya API, you often have to convert a `MFloatMatrix` type to `MMatrix` type. The simpler way to do it in Python is this way:
+
+```python
+my_float_mtx = OpenMaya.MFloatMatrix()
+my_mtx = OpenMaya.MMatrix(my_float_mtx.matrix)
+```
+
+This rely on the `MFloatMatrix.matrix` property which is of type `float [4][4]` using the `MMatrix(const float m[4][4])` constructor.
