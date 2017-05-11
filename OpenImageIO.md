@@ -13,31 +13,27 @@ img_path = "/path/to/your/image.exr"
 buf = oiio.ImageBuf(img_path)
 
 if buf.has_error:
-    print "Reading image: {0}".format(buf.geterror())
-    exit()
+    raise Exception("Reading image: {0}".format(buf.geterror())
 
 # get spec
 spec = src_buf.spec()
 
 if buf.has_error:
-    print "Getting image specs: {0}".format(buf.geterror())
-    exit()
+    raise Exception("Getting image specs: {0}".format(buf.geterror()))
 
 # apply algo
 res = oiio.ImageBufAlgo.zero(out_buf)
 
 # algo errors are handled using a return value
 if not res:
-    print "Zeroing output buffer: {0}".format(oiio.geterror())
-    exit()
+    raise Exception("Zeroing output buffer: {0}".format(oiio.geterror()))
 
 # write
 out_buf = oiio.ImageBuf(spec)
 out_buf.write(dst_path)
 
 if out_buf.has_error :
-    print "Writting buffer: {0}".format(out_buf.geterror())
-    exit()
+    raise Exception("Writting buffer: {0}".format(out_buf.geterror()))
 
 # etc...
 ```
@@ -78,10 +74,12 @@ img_path = "/path/to/your/image.exr"
 # read image
 buf = oiio.ImageBuf(img_path)
 
+# copy and modify the spec
 spec = buf.spec()
 spec.full_width  = 32
 spec.full_height = 32
 
+# generate a new buffer using the modified spec
 out_buf = oiio.ImageBuf(spec)
 
 # filter names can be:
