@@ -417,7 +417,7 @@ print node_in_frame(node, frame)
 
 ## Create a macro inside a RenderGraph
 
-A simple snippet to create a macro in script the same way Guerilla creates it when you do manually.
+A simple snippet to create a macro in script the same way Guerilla creates it when you do manually:
 
 ![Guerilla new macro](img/guerilla/guerilla_new_macro.png)
 
@@ -433,6 +433,42 @@ with guerilla.Modifier() as mod:
     out2 = mod.createnode("Output1", type="RenderGraphOutput", parent=macro)
     out2.Plug.adddependency(in_.Plug)
     in_.PlugName.connect(out2.PlugName)
+```
+
+## Create a sub shader
+
+This snippet create a subshader on "Dirt" parameter of the default Surface shader:
+
+![Guerilla sub shader 001](img/guerilla/guerilla_sub_shader_001.png)
+
+![Guerilla sub shader 002](img/guerilla/guerilla_sub_shader_002.png)
+
+```python
+import guerilla
+
+# default "Surface" shader
+surf_shader = guerilla.pynode("RenderGraph|Surface")
+
+with guerilla.Modifier() as gmod:
+
+    # create empty sub shader on "Dirt" attribute
+    sub_shader = gmod.createnode("Dirt", type="ShaderNodeMacro", parent=surf_shader)
+
+    # create default output node inside the sub shader
+    main_out = gmod.createnode("Output", type="ShaderNodeMacroOutput", parent=sub_shader)
+    main_out.NodePos.set((-90,-17.5))
+
+    # create input of the output node
+    in_node = gmod.createnode("Input1", type="ShaderNodeIn", parent=main_out)
+    in_node.Desc.set(guerilla.types('color'))
+    in_node.Value.set((0.5, 0.0, 0.5))
+
+    # create (hidden) output ouf the main output node
+    out_plug = gmod.createnode("Output1", type="ShaderNodeOut",parent=sub_shader)
+    out_plug.PlugName.set("Output")
+
+    gmod.adddependency(out_plug.Plug, in_node.Plug)
+    gmod.connect(in_node.PlugName, out_plug.PlugName)
 ```
 
 ## Check if a node has an input/output attribute with given name
