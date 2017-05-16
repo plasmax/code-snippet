@@ -419,6 +419,8 @@ print node_in_frame(node, frame)
 
 A simple snippet to create a macro in script the same way Guerilla creates it when you do manually.
 
+![Guerilla new macro](img/guerilla/guerilla_new_macro.png)
+
 ```python
 import guerilla
 
