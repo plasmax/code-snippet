@@ -1,5 +1,15 @@
 # Maya API Code Snippet
 
+## Get active selection list
+
+```python
+import maya.OpenMaya as om
+
+sel = om.MSelectionList()
+
+om.MGlobal.getActiveSelectionList(sel)
+```
+
 ## Iterate over Maya ui as PySide objects
 
 ```python
