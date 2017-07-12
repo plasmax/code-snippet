@@ -126,3 +126,22 @@ def do_something(arg):
 
 mc.menuItem(label = "Another Menu", command = do_something, parent = menu)
 ```
+
+## Retrive currently selected camera
+
+It looks like there is two way to retrive currently focused camera.
+
+```python
+import maya.cmds as mc
+
+# method 1: get focused panel
+focus_pan = mc.getPanel(withFocus=True)
+
+# method 2: get what the playblast command consider as the active editor
+focus_pan = mc.playblast(activeEditor=True)
+
+# and finally get camera name from editor
+cam = mc.modelPanel(focus_pan, query=True, camera=True)
+```
+
+If the focused panel is not a `modelEditor`, method 1 will bring to a `RuntimeError` when trying to retrieve camera name using `modelPanel`. Method 2 seems to be more reliable.
