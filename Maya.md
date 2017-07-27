@@ -105,9 +105,7 @@ for node in non_ascii_named_nodes():
 
 ## Add a new menu
 
-
 ![Maya add_menu](img/maya/maya_add_menu.png)
-
 
 ```python
 import maya.mel as mel
@@ -145,3 +143,69 @@ cam = mc.modelPanel(focus_pan, query=True, camera=True)
 ```
 
 If the focused panel is not a `modelEditor`, method 1 will bring to a `RuntimeError` when trying to retrieve camera name using `modelPanel`. Method 2 seems to be more reliable.
+
+
+## Get materials connected to a list of shapes
+
+You maybe know `hyperShade()` command to select materials connected to selected objects:
+
+```python
+>>> mc.hyperShade(cmds.hyperShade(shaderNetworksSelectMaterialNodes=True)
+>>> mc.ls(selection=True)
+[u'lambert1']
+```
+But this command need UI.
+
+Here is a version relying on connections:
+
+```python
+>>> mshs = ['pSphereShape1']
+>>> sgs = mc.listConnections(mshs, type='shadingEngine')
+>>> sg_inputs = mc.listConnections(sgs, destination=False)
+>>> mc.ls(sg_inputs, materials=True)
+[u'lambert1']
+```
+
+## Maya Python Idioms
+
+Those are idioms to do various things in Maya.
+
+### Get node name
+
+If you want to get node name from a given node path, you can use `split('|')[-1]` and be sure to get the node name.
+
+```python
+>>> '|path|to|node'.split('|')[-1]  # full node path
+'node'
+>>> 'path|to|node'.split('|')[-1]  # relative node path
+'node'
+>>> 'node'.split('|')[-1]  # even node name works
+'node'
+```
+
+### Get parent name from absolute node path
+
+A safe way to get parent is to do:
+
+```python
+>>> mc.listRelatives('|path|to|node', parent=True, fullPath=True)[0]
+'|path|to'
+```
+
+The `listRelatives()` command return a `list` of parent node paths. A node can have multiple parent in case of instance (one shape, multiple parent `transform` nodes).
+
+But `listRelatives()` is costly. If you have the garanty there is no instance in your scene and the input node path is absolute you can rely on string manipulation and use `rsplit('|', 1)` to cut the string on the right and get parent node:
+
+```python
+>>> '|path|to|node'.rsplit('|', 1)[0]
+'|path|to'
+```
+
+### Get absolute node path from relative node path
+
+Some commands can't return absolute node path. The way to get absolute node path from relative node path is:
+
+```python
+>>> mc.ls('to|node', long=True)[0]
+'|path|to|node'
+```
