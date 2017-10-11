@@ -59,4 +59,4 @@ git push --force origin master
 
 To put everything nice in github.
 
-Another option can be found [here](https://stackoverflow.com/questions/750172/change-the-author-and-committer-name-and-e-mail-of-multiple-commits-in-git)
+Another option can be found [here](https://stackoverflow.com/questions/750172/change-the-author-and-committer-name-and-e-mail-of-multiple-commits-in-git).
