@@ -14,6 +14,8 @@ vtx_pos = zip(raw_pos[0::3], raw_pos[1::3], raw_pos[2::3])
 ## Retrive index of the closest vertex of the given position
 
 ```python
+import maya.cmds as mc
+
 def sqrt_dst(p1,p2):
     """return square distance between `p1` and `p2`
     
@@ -24,7 +26,7 @@ def sqrt_dst(p1,p2):
 def closest(org_pos, node):
     """Return vertex indice of given node wich is the closest of given world space `org_pos`"""
     # get every world space position of given node vertices
-    raw_pos = cmds.xform(node+'.vtx[*]', query = True, worldSpace = True, translation = True)
+    raw_pos = mc.xform(node+'.vtx[*]', query = True, worldSpace = True, translation = True)
     
     # convert raw list to list of three-component-tuple
     pt_pos = zip(raw_pos[0::3], raw_pos[1::3], raw_pos[2::3])
@@ -34,7 +36,7 @@ def closest(org_pos, node):
     return pt_sqrt_dst.index(min(pt_sqrt_dst))
 
 # get world position of the locator
-loc_pos = cmds.xform('locator1', query = True, worldSpace = True, translation = True)
+loc_pos = mc.xform('locator1', query = True, worldSpace = True, translation = True)
 
 print closest(org_pos = loc_pos, node = 'pCube1')
 ```
@@ -103,6 +105,37 @@ for node in non_ascii_named_nodes():
 # pâté
 ```
 
+## Convert non-ascii node names to valid ascii
+
+Following previous snippet, this one will rename every node to ensure it has a ascii complient name.
+
+```python
+import unicodedata
+
+import maya.cmds as mc
+
+has_ascii = True
+
+while has_ascii:
+    
+    for node in mc.ls('*'):
+        try:
+            node.decode('ascii')
+        except UnicodeEncodeError:
+            new_name = unicodedata.normalize('NFKD', node).encode('ascii', 'ignore')
+            print "Rename non-ASCII node: ", node, "->", new_name
+            mc.rename(node, new_name)
+            break
+    else:  # no break
+        has_ascii = False
+            
+# Rename non-ASCII node:  pâté -> pate
+```
+
+You have to be careful as new name can potentially clash with another node.
+
+This snippet is inspired from [here](http://sametmax.com/lencoding-en-python-une-bonne-fois-pour-toute/).
+
 ## Add a new menu
 
 ![Maya add_menu](img/maya/maya_add_menu.png)
@@ -150,7 +183,8 @@ If the focused panel is not a `modelEditor`, method 1 will bring to a `RuntimeEr
 You maybe know `hyperShade()` command to select materials connected to selected objects:
 
 ```python
->>> mc.hyperShade(cmds.hyperShade(shaderNetworksSelectMaterialNodes=True)
+>>> import maya.cmds as mc
+>>> mc.hyperShade(mc.hyperShade(shaderNetworksSelectMaterialNodes=True)
 >>> mc.ls(selection=True)
 [u'lambert1']
 ```
