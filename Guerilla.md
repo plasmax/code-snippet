@@ -563,3 +563,81 @@ print node.name
 ```
 
 As said before, in the case of output, this function only return the first encounter output. You can modify this function to return a list instead of the first one.
+
+## Create default RenderGraph node
+
+Guerilla Python does not provide default node creation function so you have to wrote them by yourself.
+
+This one create a default `RenderGraph`.
+
+```python
+import guerilla
+
+def create_render_graph():
+
+    doc = guerilla.Document()
+
+    # create render graph
+    rg = guerilla.Node.create('RenderGraph', type='RenderGraph', parent=doc)
+
+    # tag node
+    all_ = guerilla.Node.create('All', type='RenderGraphNodeTag', parent=rg)
+    all_.Tag.set('All')
+    all_.Lights.set(True)
+    all_out = all_.createoutput()
+    all_out.PlugName.set('Output')
+
+    # surface node
+    surf = guerilla.Node.create('Surface2', type='RenderGraphNodeShader', parent=rg)
+    surf.Mode.set('surface')
+    surf.Shader.set('Surface2')
+    surf_in = surf.createinput()
+    surf_out = surf.createoutput()
+
+    # Trace node
+    trace = guerilla.Node.create('Trace', type='RenderGraphNodeSet', parent=rg)
+    trace.Membership.set('All,Diffuse,Reflection,Refraction')
+    trace_in = trace.createinput()
+    trace_in.PlugName.set('set')
+    trace_out = trace.createoutput()
+
+    # Lighting node
+    light = guerilla.Node.create('Lighting', type='RenderGraphNodeSet', parent=rg)
+    light.Membership.set('Lights,Shadows')
+    light_in = light.createinput()
+    light_in.PlugName.set('set')
+    light_out = light.createoutput()
+
+    # all -> surface
+    surf_in.Plug.connect(all_out.Plug)
+
+    # surface -> trace
+    trace_in.Plug.connect(surf_out.Plug)
+
+    # trace -> light
+    light_in.Plug.connect(trace_out.Plug)
+
+    # Layer node
+    lay = guerilla.Node.create('Layer', type='RenderGraphNodeRenderLayer',
+                               parent=rg)
+    lay.Membership.set("layer:Layer")
+    lay_vis = lay.createinput()
+    lay_vis.PlugName.set('visible')
+    lay_matte = lay.createinput()
+    lay_matte.PlugName.set('matte')
+    lay_out = lay.createoutput()
+
+    # trace -> layer
+    lay_vis.Plug.connect(light_out.Plug)
+
+    # Output node
+    out = guerilla.Node.create('Output', type='RenderGraphNodeOutput',
+                               parent=rg)
+    out_in = out.createinput()
+    out_in.PlugName.set('Output')
+
+    # layer -> out
+    out_in.Plug.connect(lay_out.Plug)
+
+    return rg
+```
