@@ -105,6 +105,30 @@ for node in non_ascii_named_nodes():
 # pâté
 ```
 
+## Iterate over nodes having invalid characters in their names
+
+```python
+import string
+import maya.cmds as mc
+
+# store every valid characters for later check
+_valid_chars = set(string.ascii_letters + string.digits + '_')
+
+def invalid_named_nodes():
+
+    return (n for n in mc.ls('*')  # return each node
+            if any((c not in _valid_chars  # having a invalid character
+                    for c in n)))
+```
+
+And use it like this:
+
+```python
+for invalid_node in invalid_named_nodes():
+    print invalid_node
+# pâté
+```
+
 ## Convert non-ascii node names to valid ascii
 
 Following previous snippet, this one will rename every node to ensure it has a ascii complient name.
